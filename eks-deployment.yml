@@ -2,21 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: eks-demo
-  name: deployment-eks-demo
+  name: demo-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: app-eks-demo
-  replicas: 2
+      app: demo-app
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: app-eks-demo
+        app: demo-app
     spec:
       containers:
-      - image: CONTAINER_IMAGE
-        imagePullPolicy: Always
-        name: app-eks-demo
+      - name: demo-app
+        image: CONTAINER_IMAGE
         ports:
         - containerPort: 80
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
